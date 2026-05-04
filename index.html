@@ -1,86 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Agent Startup</title>
-
+  <meta charset="UTF-8" />
+  <title>Agent</title>
   <style>
-    body {
-      font-family: Arial;
-      background: #0f172a;
-      color: #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
-    }
-
-    h1 {
-      color: #38bdf8;
-    }
-
-    input {
-      width: 300px;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-right: 10px;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #38bdf8;
-      color: black;
-      cursor: pointer;
-    }
-
-    pre {
-      margin-top: 20px;
-      background: #020617;
-      padding: 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 600px;
-      overflow-x: auto;
-    }
+    body { font-family: Arial; background:#0f172a; color:#e2e8f0; text-align:center; padding:40px; }
+    input { padding:10px; border-radius:8px; border:none; width:260px; }
+    button { padding:10px 20px; border:none; border-radius:8px; background:#38bdf8; color:#000; cursor:pointer; }
+    pre, iframe { margin-top:20px; background:#020617; padding:20px; border-radius:10px; width:80%; max-width:700px; }
+    iframe { height:400px; }
   </style>
 </head>
-
 <body>
 
-  <h1>Agent 🚀</h1>
+<h1>Agent 🚀</h1>
 
-  <div>
-    <input id="input" placeholder="Digite algo..." />
-    <button onclick="send()">Enviar</button>
-  </div>
+<input id="input" placeholder="Ex: cria um site sobre crypto" />
+<button onclick="send()">Enviar</button>
 
-  <pre id="output">Resposta vai aparecer aqui...</pre>
+<pre id="textOutput"></pre>
+<iframe id="htmlOutput"></iframe>
 
-  <script>
-    async function send() {
-      const input = document.getElementById("input").value;
+<script>
+async function send() {
+  const input = document.getElementById("input").value;
 
-      try {
-        const res = await fetch("https://agent-api-ex71.onrender.com/agent", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ input })
-        });
+  const res = await fetch("https://agent-api-ex71.onrender.com/agent", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ input })
+  });
 
-        const data = await res.json();
+  const data = await res.json();
 
-        document.getElementById("output").textContent = data.result;
+  // limpa
+  document.getElementById("textOutput").textContent = "";
+  document.getElementById("htmlOutput").srcdoc = "";
 
-      } catch (err) {
-        document.getElementById("output").textContent = "Erro: " + err.message;
-      }
-    }
-  </script>
+  if (data.type === "html") {
+    document.getElementById("htmlOutput").srcdoc = data.content;
+  } else {
+    document.getElementById("textOutput").textContent = data.content;
+  }
+}
+</script>
 
 </body>
 </html>
