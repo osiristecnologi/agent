@@ -1,15 +1,10 @@
-// utils/formatter.js
-
-// Formata código HTML
-export function formatHTML(html) {
-  return html
-    .replace(/\n/g, "")
-    .replace(/>\s+</g, "><")
-    .replace(/></g, ">\n<")
+export function formatHTML(html = "") {
+  return String(html)
+    .replace(/>\s+</g, ">\n<")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
-// Formata JSON bonito
 export function formatJSON(data) {
   try {
     return JSON.stringify(data, null, 2);
@@ -18,34 +13,23 @@ export function formatJSON(data) {
   }
 }
 
-// Formata resposta de texto
-export function formatText(text) {
-  return text.trim();
+export function formatText(text = "") {
+  return String(text)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
-// Detecta tipo de saída automaticamente
 export function autoFormat(output) {
-
-  // JSON
-  if (typeof output === "object") {
+  if (output && typeof output === "object" && !Array.isArray(output)) {
     return formatJSON(output);
   }
 
   if (typeof output === "string") {
-
-    // HTML
-    if (output.includes("<html") || output.includes("<div")) {
+    if (output.includes("<html") || output.includes("<!DOCTYPE html>")) {
       return formatHTML(output);
     }
-
-    // JSON string
-    try {
-      const parsed = JSON.parse(output);
-      return formatJSON(parsed);
-    } catch {}
-
     return formatText(output);
   }
 
-  return output;
+  return String(output ?? "");
 }
