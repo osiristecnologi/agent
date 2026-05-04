@@ -1,50 +1,35 @@
-<!-- ================= AUTH ================= -->
-<div id="screen-auth" class="screen active">
-  <div class="auth-container">
-    <div class="auth-card">
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="pt">PT</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-        <button class="lang-btn" data-lang="zh">中文</button>
-      </div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Agent Startup</title>
+</head>
+<body>
 
-      <h1 data-i18n="app_name">ClipForge</h1>
-      <p data-i18n="welcome" class="subtitle">Crie vídeos incríveis com facilidade</p>
+  <h1>Agent 🚀</h1>
 
-      <form id="form-login">
-        <div class="input-group">
-          <label for="email" class="sr-only" data-i18n="email">Seu email</label>
-          <input type="email" id="email" required placeholder="Seu email" data-i18n-placeholder="email">
-        </div>
-        <div class="input-group">
-          <label for="password" class="sr-only" data-i18n="password">Senha</label>
-          <input type="password" id="password" required minlength="6" placeholder="Senha" data-i18n-placeholder="password">
-        </div>
-        <button type="submit" id="btn-login" data-i18n="login">Entrar</button>
-        <p id="auth-error" class="error-msg" aria-live="polite"></p>
-      </form>
+  <input id="input" placeholder="Digite comando..." />
+  <button onclick="send()">Enviar</button>
 
-      <p class="auth-toggle">
-        <span data-i18n="no_account">Não tem conta?</span>
-        <a href="#" id="toggle-signup" data-i18n="signup_now">Criar agora</a>
-      </p>
-    </div>
-  </div>
-</div>
+  <pre id="output"></pre>
 
-<!-- ================= DASHBOARD ================= -->
-<div id="screen-dashboard" class="screen">
-  <header class="app-header">
-    <h1 data-i18n="dashboard">Dashboard</h1>
-    <button id="btn-logout" data-i18n="logout">Sair</button>
-  </header>
-  <button id="btn-new-project" data-i18n="new_project">+ Novo Projeto</button>
-</div>
+  <script>
+    async function send() {
+      const input = document.getElementById("input").value;
 
-<!-- ================= EDITOR ================= -->
-<div id="screen-editor" class="screen">
-  <button id="btn-back-dash" data-i18n="back">← Voltar</button>
-  <h1 data-i18n="video_editor">Editor de Vídeo</h1>
-  <div id="editor-root"></div>
-</div>
+      const res = await fetch("http://localhost:3000/agent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ input })
+      });
+
+      const data = await res.json();
+
+      document.getElementById("output").textContent = data.result;
+    }
+  </script>
+
+</body>
+</html>
