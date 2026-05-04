@@ -3,26 +3,29 @@ import cors from "cors";
 
 const app = express();
 
+// 🔥 obrigatório pra funcionar com GitHub Pages
 app.use(cors());
 app.use(express.json());
 
-// rota principal (já tem)
+// rota de teste
 app.get("/", (req, res) => {
   res.json({
-    status: "ok",
-    service: "SoulHash API"
+    status: "Agent API online 🚀"
   });
 });
 
-// 🔥 ESSA É A IMPORTANTE
+// 🔥 rota que o frontend usa
 app.post("/agent", (req, res) => {
   const { input } = req.body;
 
   res.json({
-    result: "Resposta do agent: " + input
+    result: "Agent respondeu: " + input
   });
 });
 
-app.listen(3000, () => {
-  console.log("rodando 🚀");
+// porta (Render usa process.env.PORT)
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("rodando 🚀 na porta " + PORT);
 });
