@@ -7,7 +7,7 @@ import {
   createReactComponent,
   toTitleCase
 } from "../tools/codeTemplates.js";
-import { loadConfig } from "./configStore.js";
+import { loadConfig } from "../configStore.js"; 
 
 function textResponse(content, extras = {}) {
   return {
