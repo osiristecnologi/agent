@@ -35,16 +35,15 @@ return [...new Set([...requirements.filter(Boolean), ...defaults])].slice(0, 6);
 export function createLandingPage({ topic, requirements = [], theme = "dark" }) {
 const pageTitle = toTitleCase(topic || "Nova Landing Page");
 const features = buildFeatureList(topic || "o produto", requirements);
-.map(
-  (item, index) => `
+const featureCards = features
+  .map((item, index) => `
     <article class="card">
       <span class="badge">0${index + 1}</span>
       <h3>${item}</h3>
-      <p>Uma explicação objetiva...</p>
     </article>
-  `
-)  
-.join("\n");
+  `)
+  .join("\n");           
+  
 
 const accent = theme === "light" ? "#2563eb" : "#38bdf8";
 const background = theme === "light" ? "#f8fafc" : "#020617";
