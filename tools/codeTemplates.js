@@ -22,12 +22,12 @@ return String(value)
 }
 
 function buildFeatureList(topic, requirements = []) {
-const defaults = [
-Apresentação clara sobre ${topic},
-"Seção com benefícios principais",
-"Bloco de chamada para ação",
-"Layout responsivo e moderno"
-];
+ const defaults = [
+  `Apresentação clara sobre ${topic}`,
+  "Seção com benefícios principais",
+  "Bloco de chamada para ação",
+  "Layout responsivo e moderno"
+];   
 
 return [...new Set([...requirements.filter(Boolean), ...defaults])].slice(0, 6);
 }
