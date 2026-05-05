@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { brain } from "./brain/brain.js";
 import { loadConfig } from "./brain/configStore.js";
 import { clearSession, getSession } from "./memory/session.js";
-
+// import { loadConfig } from "./brain/configStore.js";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
